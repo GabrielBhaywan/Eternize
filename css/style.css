@@ -2279,3 +2279,36 @@ h1,h2,h3,p {
 @media (max-width:420px) {
   .differential-grid { grid-template-columns:1fr; }
 }
+
+/* Fotos reais fornecidas para as seções institucionais e de atendimento. */
+.about-photo > img,
+.consultant-photo > img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.about-photo > img { object-position:center 42%; }
+.consultant-photo > img { object-position:center 35%; }
+.photo-index { z-index:2; }
+
+.hero-fallback { overflow:hidden; }
+.hero-fallback-image {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.hero-fallback-label {
+  position:absolute;
+  left:20px;
+  bottom:20px;
+  padding:8px 12px;
+  border-radius:30px;
+  color:#fff;
+  background:rgba(18,37,62,.68);
+  font:500 12px var(--sans);
+  letter-spacing:.02em;
+}

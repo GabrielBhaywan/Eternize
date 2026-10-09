@@ -25,8 +25,7 @@
     nav.classList.remove('is-open');
   }));
 
-  // Vídeo local: mantenha a imagem placeholder visível se o arquivo não carregar,
-  // o autoplay for bloqueado ou o dispositivo preferir movimento reduzido.
+  // Inicia o vídeo quando houver dados disponíveis e mantém a imagem se a reprodução falhar.
   const showFallback = () => {
     video?.classList.remove('is-ready');
     if (fallback) fallback.hidden = false;
@@ -35,19 +34,17 @@
     if (fallback) fallback.hidden = true;
     video?.classList.add('is-ready');
   };
-  if (video && !reducedMotion) {
-    video.addEventListener('canplay', async () => {
-      try {
-        await video.play();
-        showVideo();
-      } catch {
-        showFallback();
-      }
-    });
+  const playHeroVideo = () => {
+    if (!video) return;
+    video.play().then(showVideo).catch(showFallback);
+  };
+  if (video) {
+    video.addEventListener('canplay', playHeroVideo, { once: true });
     video.addEventListener('error', showFallback);
+    video.addEventListener('stalled', showFallback, { once: true });
     video.load();
+    if (video.readyState >= 3) playHeroVideo();
   }
-
   // Cards: revela uma explicação curta sem inserir condições comerciais novas.
   document.querySelectorAll('.plan-more').forEach((button) => {
     button.addEventListener('click', () => {
@@ -95,7 +92,7 @@
     let scrollFrame = 0;
 
     cards.forEach((card) => {
-      const image = card.querySelector('img[data-src]');
+      const image = card.querySelector('.benefit-card-image img');
       const placeholder = card.querySelector('.benefit-image-placeholder');
       if (!image) return;
       image.addEventListener('load', () => {
@@ -108,7 +105,15 @@
         image.hidden = true;
         if (placeholder) placeholder.hidden = false;
       });
-      image.src = image.dataset.src;
+      if (image.complete) {
+        if (image.naturalWidth > 0) {
+          image.hidden = false;
+          if (placeholder) placeholder.hidden = true;
+        } else {
+          image.hidden = true;
+          if (placeholder) placeholder.hidden = false;
+        }
+      }
     });
 
     const metrics = () => {
