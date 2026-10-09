@@ -83,6 +83,71 @@
     requestAnimationFrame(() => { panel.style.maxHeight = `${panel.scrollHeight}px`; });
   }));
 
+  // Carrossel horizontal de categorias DU: swipe nativo, botoes e teclado.
+  document.querySelectorAll('[data-benefits-carousel]').forEach((carousel) => {
+    const viewport = carousel.querySelector('[data-benefits-viewport]');
+    const cards = [...carousel.querySelectorAll('[data-benefit-item]')];
+    const previous = carousel.querySelector('[data-benefits-prev]');
+    const next = carousel.querySelector('[data-benefits-next]');
+    const counter = carousel.querySelector('[data-benefits-counter]');
+    const progress = carousel.querySelector('[data-benefits-progress]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let scrollFrame = 0;
+
+    cards.forEach((card) => {
+      const image = card.querySelector('img[data-src]');
+      const placeholder = card.querySelector('.benefit-image-placeholder');
+      if (!image) return;
+      image.addEventListener('load', () => {
+        if (image.naturalWidth > 0) {
+          image.hidden = false;
+          if (placeholder) placeholder.hidden = true;
+        }
+      });
+      image.addEventListener('error', () => {
+        image.hidden = true;
+        if (placeholder) placeholder.hidden = false;
+      });
+      image.src = image.dataset.src;
+    });
+
+    const metrics = () => {
+      const cardWidth = cards[0]?.getBoundingClientRect().width || 1;
+      const track = carousel.querySelector('[data-benefits-track]');
+      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+      const step = cardWidth + gap;
+      const maxIndex = Math.max(0, cards.length - Math.max(1, Math.floor((viewport.clientWidth + gap) / step)));
+      const currentIndex = Math.max(0, Math.min(maxIndex, Math.round(viewport.scrollLeft / step)));
+      return { step, maxIndex, currentIndex };
+    };
+    const update = () => {
+      const { step, maxIndex, currentIndex } = metrics();
+      const visibleCount = Math.max(1, Math.floor((viewport.clientWidth + (step - cards[0].getBoundingClientRect().width)) / step));
+      const lastVisible = Math.min(cards.length, currentIndex + visibleCount);
+      if (previous) previous.disabled = currentIndex <= 0;
+      if (next) next.disabled = currentIndex >= maxIndex;
+      if (counter) counter.textContent = `${String(currentIndex + 1).padStart(2, '0')} - ${String(lastVisible).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+      if (progress) progress.style.width = `${maxIndex === 0 ? 100 : (currentIndex / maxIndex) * 100}%`;
+    };
+    const move = (direction) => {
+      const { step, maxIndex, currentIndex } = metrics();
+      const targetIndex = Math.max(0, Math.min(maxIndex, currentIndex + direction));
+      viewport.scrollTo({ left: targetIndex * step, behavior: reducedMotion ? 'auto' : 'smooth' });
+    };
+    previous?.addEventListener('click', () => move(-1));
+    next?.addEventListener('click', () => move(1));
+    viewport.addEventListener('scroll', () => {
+      cancelAnimationFrame(scrollFrame);
+      scrollFrame = requestAnimationFrame(update);
+    }, { passive: true });
+    viewport.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') { event.preventDefault(); move(-1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); move(1); }
+    });
+    window.addEventListener('resize', update);
+    update();
+  });
+
   // Entrada sutil na viewport; conteúdo continua visível se IntersectionObserver não existir.
   const revealItems = document.querySelectorAll('[data-reveal]');
   if ('IntersectionObserver' in window && !reducedMotion) {

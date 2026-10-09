@@ -8,6 +8,8 @@ Abra `index.html` em um navegador. Para testar vídeo local corretamente, use um
 
 ## Materiais para substituir
 
+- Carrossel de Beneficios: adicione imagens reais em `assets/images/beneficio-<categoria>.jpg` para as 14 categorias listadas em `index.html`. Os placeholders aparecem ate os arquivos existirem.
+
 - `index.html`: comentário `LOGO AQUI` para a marca oficial.
 - `assets/videos/hero-velas.mp4`: vídeo curto, sem áudio e otimizado para a Hero.
 - `assets/images/hero-fallback.jpg`: preparar uma imagem real e ajustar o bloco `hero-fallback` em `index.html` para usar `<img>`; o placeholder atual continua visível se vídeo/autoplay falharem.
