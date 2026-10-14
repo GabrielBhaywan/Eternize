@@ -2339,3 +2339,40 @@ h1,h2,h3,p {
 }
 .footer-map-directions:hover,
 .footer-map-directions:focus-visible { text-decoration:underline; }
+/* Imagem oficial do Cartão DU no espaço que antes era um placeholder ilustrado. */
+.du-card-image {
+  width:100%;
+  max-width:300px;
+  min-height:0;
+  aspect-ratio:1 / 1;
+  margin-inline:auto;
+  padding:0;
+  overflow:hidden;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.du-card-image::before,
+.du-card-image::after { display:none; content:none; }
+.du-card-image > img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+/* Cartão DU centralizado abaixo dos botões, com cantos arredondados. */
+.du-card-image {
+  margin:28px auto 0;
+  border-radius:22px;
+}
+.du-card-image > img { border-radius:inherit; }
+.du-supporting-copy {
+  max-width:430px;
+  margin:22px 0 0;
+  padding-left:15px;
+  border-left:2px solid var(--gold);
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.75;
+}
