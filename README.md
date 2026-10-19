@@ -22,4 +22,4 @@ Os materiais na pasta `ref/` serviram como referência de identidade visual. Tex
 
 ## Conteúdo comercial
 
-Os nomes, preços e vidas dos planos, a condição de adesão e o acréscimo para pessoas acima de 65 anos estão diretamente em `index.html`. A data da promoção pode ser atualizada no texto “até o dia 15”. O telefone da consultora aparece nos links `wa.me` e no conteúdo visível; revise ambos se o contato mudar.
+Os dados dos planos, os valores de adesão e o acréscimo acima de 65 anos ficam em `index.html`. Revise o telefone nos links `wa.me` e no conteúdo visível se o contato mudar.

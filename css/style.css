@@ -670,7 +670,7 @@ h1,h2,h3,p {
 
 .differential-featured p { color:#dce5ef; }
 
-/* 6. Plans and promotion */
+/* 6. Plans */
 .plans {
   background:#f7f6f1;
 }
@@ -864,60 +864,6 @@ h1,h2,h3,p {
   text-decoration:underline;
   text-decoration-color:#c8a455;
   text-underline-offset:3px;
-}
-
-.promo-section {
-  padding:40px 0;
-  background:var(--navy);
-}
-
-.promo-wrap {
-  display:flex;
-  align-items:center;
-  gap:29px;
-  color:white;
-}
-
-.promo-symbol {
-  display:grid;
-  flex:none;
-  place-items:center;
-  width:68px;
-  height:68px;
-  border:1px solid rgba(228,196,127,.65);
-  border-radius:50%;
-  color:var(--gold-light);
-  font:36px var(--serif);
-}
-
-.promo-copy {
-  flex:1;
-}
-
-.promo-copy .eyebrow {
-  margin-bottom:8px;
-  color:var(--gold-light);
-}
-
-.promo-copy h2 {
-  margin:0 0 5px;
-  font:600 clamp(22px,3vw,31px) var(--display);
-  letter-spacing:-.04em;
-}
-
-.promo-copy h2 span {
-  color:var(--gold-light);
-}
-
-.promo-copy h2 small {
-  font:400 14px var(--sans);
-  letter-spacing:0;
-}
-
-.promo-copy>p:last-child {
-  margin:0;
-  color:#c6d1dc;
-  font-size:11px;
 }
 
 /* 7. How it works */
@@ -1953,36 +1899,7 @@ h1,h2,h3,p {
   .plan-footnote {
     text-align:left;
   }
-
-  .promo-wrap {
-    flex-wrap:wrap;
-    gap:17px;
-  }
-
-  .promo-symbol {
-    width:54px;
-    height:54px;
-    font-size:29px;
-  }
-
-  .promo-copy {
-    min-width:calc(100% - 80px);
-  }
-
-  .promo-copy h2 {
-    font-size:23px;
-  }
-
-  .promo-copy h2 small {
-    display:block;
-    margin-top:3px;
-  }
-
-  .promo-wrap>.button {
-    margin-left:71px;
-  }
-
-  .steps-grid {
+.steps-grid {
     grid-template-columns:repeat(2,1fr);
     gap:30px 20px;
   }
