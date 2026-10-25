@@ -464,6 +464,7 @@ h1,h2,h3,p {
   align-items:center;
 }
 
+.about-photo,
 .placeholder-panel {
   position:relative;
   display:flex;
@@ -1593,6 +1594,7 @@ h1,h2,h3,p {
   letter-spacing:.13em;
 }
 
+.footer-map-frame iframe,
 .footer-map-placeholder iframe {
   display:block;
   width:100%;
@@ -1605,6 +1607,7 @@ h1,h2,h3,p {
   max-width:250px;
 }
 
+.footer-map-frame,
 .footer-map-placeholder {
   display:flex;
   min-height:88px;
@@ -2090,12 +2093,14 @@ h1,h2,h3,p {
     gap:15px;
   }
 
-  .footer-map-placeholder {
+  .footer-map-frame,
+.footer-map-placeholder {
     min-height:115px;
   }
 
 }
 
+.footer-map-frame,
 .footer-map-placeholder {
   overflow:hidden;
   padding:0;
@@ -2256,7 +2261,7 @@ h1,h2,h3,p {
 }
 .footer-map-directions:hover,
 .footer-map-directions:focus-visible { text-decoration:underline; }
-/* Imagem oficial do Cartão DU no espaço que antes era um placeholder ilustrado. */
+/* Imagem oficial do Cartão DU. */
 .du-card-image {
   width:100%;
   max-width:300px;

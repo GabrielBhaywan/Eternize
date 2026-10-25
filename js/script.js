@@ -25,7 +25,7 @@
     nav.classList.remove('is-open');
   }));
 
-  // Inicia o vídeo quando houver dados disponíveis e mantém a imagem se a reprodução falhar.
+  // Inicia o vídeo quando houver dados disponíveis e mantém o fallback se a reprodução falhar.
   const showFallback = () => {
     video?.classList.remove('is-ready');
     if (fallback) fallback.hidden = false;
@@ -45,7 +45,8 @@
     video.load();
     if (video.readyState >= 3) playHeroVideo();
   }
-  // Cards: revela uma explicação curta sem inserir condições comerciais novas.
+
+  // Cards: revela detalhes do plano sem alterar a estrutura comercial.
   document.querySelectorAll('.plan-more').forEach((button) => {
     button.addEventListener('click', () => {
       const panel = button.nextElementSibling;
@@ -57,7 +58,7 @@
     });
   });
 
-  // FAQ accordion: somente uma resposta fica aberta; altura é animada sem pop-up.
+  // FAQ accordion: somente uma resposta aberta por vez com transição suave.
   const faqButtons = [...document.querySelectorAll('.faq-question')];
   const closeFaq = (button) => {
     const panel = document.getElementById(button.getAttribute('aria-controls'));
@@ -80,7 +81,7 @@
     requestAnimationFrame(() => { panel.style.maxHeight = `${panel.scrollHeight}px`; });
   }));
 
-  // Carrossel horizontal de categorias DU: swipe nativo, botoes e teclado.
+  // Carrossel horizontal de categorias DU: swipe nativo, botões e teclado.
   document.querySelectorAll('[data-benefits-carousel]').forEach((carousel) => {
     const viewport = carousel.querySelector('[data-benefits-viewport]');
     const cards = [...carousel.querySelectorAll('[data-benefit-item]')];
@@ -88,32 +89,14 @@
     const next = carousel.querySelector('[data-benefits-next]');
     const counter = carousel.querySelector('[data-benefits-counter]');
     const progress = carousel.querySelector('[data-benefits-progress]');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let scrollFrame = 0;
 
     cards.forEach((card) => {
       const image = card.querySelector('.benefit-card-image img');
-      const placeholder = card.querySelector('.benefit-image-placeholder');
       if (!image) return;
-      image.addEventListener('load', () => {
-        if (image.naturalWidth > 0) {
-          image.hidden = false;
-          if (placeholder) placeholder.hidden = true;
-        }
-      });
       image.addEventListener('error', () => {
-        image.hidden = true;
-        if (placeholder) placeholder.hidden = false;
+        card.classList.add('has-image-error');
       });
-      if (image.complete) {
-        if (image.naturalWidth > 0) {
-          image.hidden = false;
-          if (placeholder) placeholder.hidden = true;
-        } else {
-          image.hidden = true;
-          if (placeholder) placeholder.hidden = false;
-        }
-      }
     });
 
     const metrics = () => {

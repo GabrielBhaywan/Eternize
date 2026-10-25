@@ -1,0 +1,10 @@
+remover textos provisórios, imagem aqui, nas categorias e na secção do cartão DU.
+
+meta description mais especificas e titulo da pagina 
+
+especificar melhor as palavras chaves
+
+colocar tag canonical, sitemap xml,
+robot.txt,  
+
+sitemap.xml (wordepress), google shercs console, llms.txt, robots.txt, 
