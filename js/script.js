@@ -25,25 +25,51 @@
     nav.classList.remove('is-open');
   }));
 
-  // Inicia o vídeo quando houver dados disponíveis e mantém o fallback se a reprodução falhar.
-  const showFallback = () => {
-    video?.classList.remove('is-ready');
-    if (fallback) fallback.hidden = false;
-  };
-  const showVideo = () => {
-    if (fallback) fallback.hidden = true;
-    video?.classList.add('is-ready');
-  };
-  const playHeroVideo = () => {
-    if (!video) return;
-    video.play().then(showVideo).catch(showFallback);
-  };
+  // Reprodução do vídeo hero com suporte robusto a autoplay e fallback
   if (video) {
-    video.addEventListener('canplay', playHeroVideo, { once: true });
+    video.muted = true;
+    video.defaultMuted = true;
+
+    const hideFallback = () => {
+      if (fallback) {
+        fallback.hidden = true;
+        fallback.classList.remove('is-visible');
+      }
+      video.classList.add('is-ready');
+    };
+
+    const showFallback = () => {
+      if (fallback) {
+        fallback.hidden = false;
+        fallback.classList.add('is-visible');
+      }
+    };
+
+    const tryPlay = () => {
+      video.muted = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(hideFallback).catch(() => {
+          // Se o navegador bloquear autoplay antes de interação, inicia no primeiro gesto
+          const onFirstInteraction = () => {
+            video.play().then(hideFallback).catch(() => {});
+            ['click', 'touchstart', 'scroll'].forEach((evt) => {
+              window.removeEventListener(evt, onFirstInteraction);
+            });
+          };
+          ['click', 'touchstart', 'scroll'].forEach((evt) => {
+            window.addEventListener(evt, onFirstInteraction, { passive: true, once: true });
+          });
+        });
+      }
+    };
+
+    video.addEventListener('loadeddata', tryPlay, { once: true });
+    video.addEventListener('canplay', tryPlay, { once: true });
+    video.addEventListener('playing', hideFallback);
     video.addEventListener('error', showFallback);
-    video.addEventListener('stalled', showFallback, { once: true });
-    video.load();
-    if (video.readyState >= 3) playHeroVideo();
+
+    tryPlay();
   }
 
   // Cards: revela detalhes do plano sem alterar a estrutura comercial.
